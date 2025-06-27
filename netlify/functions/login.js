@@ -1,6 +1,6 @@
 const querystring = require("querystring");
 
-let attempts = {}; // memory block by IP
+let attempts = {};
 
 exports.handler = async (event) => {
   const headers = {
@@ -9,32 +9,21 @@ exports.handler = async (event) => {
   };
 
   if (event.httpMethod === "OPTIONS") {
-    return {
-      statusCode: 200,
-      headers,
-      body: "CORS preflight success"
-    };
+    return { statusCode: 200, headers, body: "OK" };
   }
 
   const ip = event.headers["x-forwarded-for"] || "unknown";
   const now = Date.now();
-
-  if (!attempts[ip]) {
-    attempts[ip] = { failCount: 0, lockedUntil: 0 };
-  }
+  if (!attempts[ip]) attempts[ip] = { failCount: 0, lockedUntil: 0 };
 
   if (attempts[ip].lockedUntil > now) {
     const wait = Math.ceil((attempts[ip].lockedUntil - now) / 1000);
-    return {
-      statusCode: 429,
-      headers,
-      body: `คุณล็อกอินผิดหลายครั้ง กรุณารอ ${wait} วินาที`
-    };
+    return { statusCode: 429, headers, body: `กรุณารอ ${wait} วินาที` };
   }
 
   const parsedBody = querystring.parse(event.body);
   const password = parsedBody.password;
-  const correctPassword = "adminstaffsisaad2025";
+  const correctPassword = "admin6669";
 
   if (password === correctPassword) {
     attempts[ip] = { failCount: 0, lockedUntil: 0 };
@@ -48,19 +37,18 @@ exports.handler = async (event) => {
   }
 
   attempts[ip].failCount++;
-
   if (attempts[ip].failCount >= 5) {
     attempts[ip].lockedUntil = now + 10 * 60 * 1000;
     return {
       statusCode: 429,
       headers,
-      body: "พยายามล็อกอินผิดเกิน 5 ครั้ง ระบบถูกล็อก 10 นาที"
+      body: "พยายามผิดเกิน 5 ครั้ง ระบบล็อกไว้ 10 นาที"
     };
   }
 
   return {
     statusCode: 401,
     headers,
-    body: `รหัสผ่านผิด (${attempts[ip].failCount} ครั้ง)`
+    body: `รหัสผิด (${attempts[ip].failCount} ครั้ง)`
   };
 };

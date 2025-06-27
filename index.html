@@ -2,11 +2,15 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>STAFF LOGIN | SISAAD</title>
-  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet" />
   <link rel="icon" href="favicon.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Prompt', sans-serif;
       background-color: #fff6ec;
@@ -15,14 +19,15 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
+      padding: 1rem;
     }
     .box {
       background: #ffffff;
-      padding: 2rem;
+      padding: 2rem 1.5rem;
       border-radius: 12px;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
       max-width: 400px;
-      width: 90%;
+      width: 100%;
     }
     h1 {
       color: #ff6600;
@@ -50,15 +55,49 @@
     button:hover {
       background-color: #e65c00;
     }
+    #splash {
+      display: none;
+      text-align: center;
+      color: #ff6600;
+    }
+    .spinner {
+      margin: 2rem auto;
+      width: 50px;
+      height: 50px;
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #ff6600;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
-  <div class="box">
+  <div class="box" id="loginBox">
     <h1>STAFF ONLY</h1>
-    <form method="POST" action="/.netlify/functions/login">
+    <form id="loginForm" method="POST" action="/.netlify/functions/login">
       <input type="password" name="password" placeholder="กรอกรหัสผ่าน" required />
       <button type="submit">เข้าสู่ระบบ</button>
     </form>
   </div>
+
+  <div id="splash">
+    <div class="spinner"></div>
+    <p>กำลังเข้าสู่ระบบ<br/>โปรดรอสักครู่...</p>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const box = document.getElementById("loginBox");
+    const splash = document.getElementById("splash");
+
+    form.addEventListener("submit", () => {
+      box.style.display = "none";
+      splash.style.display = "block";
+    });
+  </script>
 </body>
 </html>
