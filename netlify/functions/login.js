@@ -1,18 +1,18 @@
 const querystring = require("querystring");
 
-let attempts = {}; // บันทึกจำนวนครั้งพลาดของแต่ละ IP
+let attempts = {}; // memory block by IP
 
 exports.handler = async (event) => {
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type'
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type"
   };
 
-  // ตรวจสอบ preflight request ของ CORS
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
-      headers
+      headers,
+      body: "CORS preflight success"
     };
   }
 
@@ -28,7 +28,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 429,
       headers,
-      body: `คุณล็อกอินผิดหลายครั้ง กรุณารอ ${wait} วินาที`,
+      body: `คุณล็อกอินผิดหลายครั้ง กรุณารอ ${wait} วินาที`
     };
   }
 
@@ -37,23 +37,20 @@ exports.handler = async (event) => {
   const correctPassword = "adminstaffsisaad2025";
 
   if (password === correctPassword) {
-    // Reset ข้อมูลเมื่อใส่รหัสถูกต้อง
     attempts[ip] = { failCount: 0, lockedUntil: 0 };
-
     return {
       statusCode: 302,
       headers: {
         ...headers,
-        Location: "https://liff.line.me/2007617039-lwJeWZrn",
-      },
+        Location: "https://liff.line.me/2007617039-lwJeWZrn"
+      }
     };
   }
 
-  // หากรหัสผิด
   attempts[ip].failCount++;
 
   if (attempts[ip].failCount >= 5) {
-    attempts[ip].lockedUntil = now + 10 * 60 * 1000; // ล็อก 10 นาที
+    attempts[ip].lockedUntil = now + 10 * 60 * 1000;
     return {
       statusCode: 429,
       headers,
