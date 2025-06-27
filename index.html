@@ -2,9 +2,10 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STAFF LOGIN | SISAAD</title>
   <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.png" type="image/png" />
   <style>
     body {
       font-family: 'Prompt', sans-serif;
@@ -49,75 +50,15 @@
     button:hover {
       background-color: #e65c00;
     }
-    #msg {
-      margin-top: 1rem;
-      color: red;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
   <div class="box">
     <h1>STAFF ONLY</h1>
-    <form id="login-form">
+    <form method="POST" action="/.netlify/functions/login">
       <input type="password" name="password" placeholder="กรอกรหัสผ่าน" required />
       <button type="submit">เข้าสู่ระบบ</button>
     </form>
-    <div id="msg"></div>
   </div>
-
-  <script>
-    const form = document.getElementById("login-form");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const password = form.password.value;
-
-      const res = await fetch("/.netlify/functions/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `password=${encodeURIComponent(password)}`
-      });
-
-      if (res.status === 302) {
-        document.body.innerHTML = `
-          <style>
-            .loading {
-              font-family: 'Prompt', sans-serif;
-              color: #ff6600;
-              font-size: 1.2rem;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              height: 100vh;
-              background-color: #fff6ec;
-            }
-            .loading-spinner {
-              border: 6px solid #f3f3f3;
-              border-top: 6px solid #ff6600;
-              border-radius: 50%;
-              width: 40px;
-              height: 40px;
-              animation: spin 1s linear infinite;
-              margin-bottom: 1rem;
-            }
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-          </style>
-          <div class="loading">
-            <div class="loading-spinner"></div>
-            <div>กำลังเข้าสู่ระบบ กรุณารอสักครู่...</div>
-          </div>`;
-        setTimeout(() => {
-          window.location.href = res.headers.get("Location");
-        }, 2000);
-      } else {
-        const text = await res.text();
-        document.getElementById("msg").textContent = text;
-      }
-    });
-  </script>
 </body>
 </html>
