@@ -143,6 +143,7 @@ exports.handler = async (event) => {
         <body style="font-family: Prompt, sans-serif; background:#fff6ec; text-align:center; padding:4rem;">
           <h2 style="color:tomato;">❌ รหัสผ่านไม่ถูกต้อง</h2>
           <p>คุณกรอกผิดไปแล้ว ${attempts[ip].failCount} ครั้ง</p>
+          <p>ครบ 5 ครั้ง ระบบจะล็อกครั้ง</p>
           <a href="/" style="color:#ff6600;">🔁 ลองใหม่อีกครั้ง</a>
         </body>
       </html>
