@@ -12,19 +12,13 @@
       box-sizing: border-box;
     }
     body {
-      margin: 0;
       font-family: 'Prompt', sans-serif;
       background-color: #fff6ec;
       display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    .wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
+      height: 100vh;
+      margin: 0;
       padding: 1rem;
     }
     .box {
@@ -40,6 +34,9 @@
       font-size: 1.6rem;
       text-align: center;
       margin-bottom: 1rem;
+    }
+    form {
+      margin-top: 1rem;
     }
     input, button {
       width: 100%;
@@ -62,7 +59,6 @@
       display: none;
       text-align: center;
       color: #ff6600;
-      margin-top: 1rem;
     }
     .spinner {
       margin: 2rem auto;
@@ -77,107 +73,39 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
-    .error-box {
-      display: none;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-      padding: 1.2rem;
-      background-color: #fff0eb;
-      color: #cc3300;
-      border-left: 5px solid #ff6600;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 500;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-4px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .credit {
+    footer {
+      font-size: 0.9em;
+      color: #777;
       text-align: center;
-      font-size: 0.85rem;
-      color: #888;
-      margin-top: 2rem;
-      padding-top: 1rem;
-      border-top: 1px dashed #ccc;
-      line-height: 1.4;
+      border-top: 1px solid var(--border);
+      margin-top: 6em;
+      padding-top: 1.2em;
     }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="box" id="loginBox">
-      <h1>STAFF ONLY</h1>
-      <form id="loginForm">
-        <input type="password" name="password" id="passwordInput" placeholder="กรอกรหัสผ่าน" required />
-        <button type="submit">เข้าสู่ระบบ</button>
-      </form>
+  <div class="box" id="loginBox">
+    <h1>STAFF ONLY</h1>
+    <form id="loginForm" method="POST" action="/.netlify/functions/login">
+      <input type="password" name="password" placeholder="กรอกรหัสผ่าน" required />
+      <button type="submit">เข้าสู่ระบบ</button>
+    </form>
+  </div>
+  
 
-      <div id="errorBox" class="error-box">
-        <span style="font-size: 1.4rem;">🚫</span>
-        <span id="errorText"></span>
-      </div>
-    </div>
-
-    <div id="splash">
-      <div class="spinner"></div>
-      <p>กำลังเข้าสู่ระบบ<br/>โปรดรอสักครู่...</p>
-    </div>
-
-    <footer class="credit">
-      © 2025 พัฒนาระบบโดยสวัสดิการข้อมูลคณะสีแสด<br>
-      บงกชประภัสสร โรงเรียนเมืองสุราษฎร์ธานี
-    </footer>
+  <div id="splash">
+    <div class="spinner"></div>
+    <p>กำลังเข้าสู่ระบบ<br/>โปรดรอสักครู่...</p>
   </div>
 
   <script>
     const form = document.getElementById("loginForm");
     const box = document.getElementById("loginBox");
     const splash = document.getElementById("splash");
-    const errorBox = document.getElementById("errorBox");
-    const errorText = document.getElementById("errorText");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      errorBox.style.display = "none";
-      errorText.textContent = "";
-
-      const password = document.getElementById("passwordInput").value;
-
-      splash.style.display = "block";
+    form.addEventListener("submit", () => {
       box.style.display = "none";
-
-      try {
-        const response = await fetch("/.netlify/functions/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({ password })
-        });
-
-        const text = await response.text();
-
-        if (response.status === 302) {
-          const location = response.headers.get("Location");
-          window.location.href = location;
-        } else {
-          splash.style.display = "none";
-          box.style.display = "block";
-          errorText.textContent = text;
-          errorBox.style.display = "flex";
-        }
-      } catch (err) {
-        splash.style.display = "none";
-        box.style.display = "block";
-        errorText.textContent = "เกิดข้อผิดพลาดในการเชื่อมต่อ";
-        errorBox.style.display = "flex";
-      }
+      splash.style.display = "block";
     });
   </script>
 </body>
