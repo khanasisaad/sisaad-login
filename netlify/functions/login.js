@@ -47,8 +47,8 @@ exports.handler = async (event) => {
   }
 
   return {
-    statusCode: 401,
-    headers,
-    body: `รหัสผิด (${attempts[ip].failCount} ครั้ง)`
-  };
+  statusCode: 401,
+  headers,
+  body: `รหัสผ่านไม่ถูกต้อง (${attempts[ip].failCount} ครั้ง)`
+};
 };
