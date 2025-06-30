@@ -4,8 +4,10 @@ let attempts = {};
 
 exports.handler = async (event) => {
   const headers = {
+    "Content-Type": "text/plain",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type"
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS"
   };
 
   if (event.httpMethod === "OPTIONS") {
@@ -47,8 +49,8 @@ exports.handler = async (event) => {
   }
 
   return {
-  statusCode: 401,
-  headers,
-  body: `รหัสผ่านไม่ถูกต้อง (${attempts[ip].failCount} ครั้ง)`
-};
+    statusCode: 401,
+    headers,
+    body: `รหัสผ่านไม่ถูกต้อง (${attempts[ip].failCount} ครั้ง)`
+  };
 };
