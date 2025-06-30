@@ -12,13 +12,19 @@
       box-sizing: border-box;
     }
     body {
+      margin: 0;
       font-family: 'Prompt', sans-serif;
       background-color: #fff6ec;
       display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
       padding: 1rem;
     }
     .box {
@@ -56,6 +62,7 @@
       display: none;
       text-align: center;
       color: #ff6600;
+      margin-top: 1rem;
     }
     .spinner {
       margin: 2rem auto;
@@ -91,34 +98,42 @@
       from { opacity: 0; transform: translateY(-4px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
     .credit {
-  text-align: center;
-  font-size: 0.85rem;
-  color: #888;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px dashed #ccc;
-  line-height: 1.4;
-}
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px dashed #ccc;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
-  <div class="box" id="loginBox">
-    <h1>STAFF ONLY</h1>
-    <form id="loginForm">
-      <input type="password" name="password" id="passwordInput" placeholder="กรอกรหัสผ่าน" required />
-      <button type="submit">เข้าสู่ระบบ</button>
-    </form>
+  <div class="wrapper">
+    <div class="box" id="loginBox">
+      <h1>STAFF ONLY</h1>
+      <form id="loginForm">
+        <input type="password" name="password" id="passwordInput" placeholder="กรอกรหัสผ่าน" required />
+        <button type="submit">เข้าสู่ระบบ</button>
+      </form>
 
-    <div id="errorBox" class="error-box">
-      <span style="font-size: 1.4rem;">🚫</span>
-      <span id="errorText"></span>
+      <div id="errorBox" class="error-box">
+        <span style="font-size: 1.4rem;">🚫</span>
+        <span id="errorText"></span>
+      </div>
     </div>
-  </div>
 
-  <div id="splash">
-    <div class="spinner"></div>
-    <p>กำลังเข้าสู่ระบบ<br/>โปรดรอสักครู่...</p>
+    <div id="splash">
+      <div class="spinner"></div>
+      <p>กำลังเข้าสู่ระบบ<br/>โปรดรอสักครู่...</p>
+    </div>
+
+    <footer class="credit">
+      © 2025 พัฒนาระบบโดยสวัสดิการข้อมูลคณะสีแสด<br>
+      บงกชประภัสสร โรงเรียนเมืองสุราษฎร์ธานี
+    </footer>
   </div>
 
   <script>
@@ -129,9 +144,8 @@
     const errorText = document.getElementById("errorText");
 
     form.addEventListener("submit", async (e) => {
-      e.preventDefault(); // หยุดการ reload
+      e.preventDefault();
 
-      // ล้าง error เดิม
       errorBox.style.display = "none";
       errorText.textContent = "";
 
@@ -166,9 +180,5 @@
       }
     });
   </script>
-  <footer class="credit">
-  © 2025 พัฒนาระบบโดยสวัสดิการข้อมูลคณะสีแสด<br>
-  บงกชประภัสสร โรงเรียนเมืองสุราษฎร์ธานี
-</footer>
 </body>
 </html>
