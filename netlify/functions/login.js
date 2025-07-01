@@ -40,6 +40,7 @@ exports.handler = async (event) => {
               font-family: 'Prompt', sans-serif;
               background-color: #fff6ec;
               margin: 0;
+              padding: 0 1.5rem;
               height: 100vh;
               display: flex;
               align-items: center;
@@ -47,12 +48,12 @@ exports.handler = async (event) => {
             }
             .box {
               background: #fff0eb;
-              padding: 2.5rem;
+              padding: 2.5rem 1.8rem;
               border-radius: 14px;
               text-align: center;
               box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
               max-width: 400px;
-              width: 90%;
+              width: 100%;
             }
             h1 {
               font-size: 1.6rem;
@@ -78,7 +79,6 @@ exports.handler = async (event) => {
             <div id="countdown">เหลือเวลา: --:--</div>
             <a href="/">กลับหน้าล็อกอิน</a>
           </div>
-
           <script>
             const unlockAt = Date.now() + (${wait} * 1000);
             function updateCountdown() {
@@ -140,6 +140,7 @@ exports.handler = async (event) => {
             font-family: 'Prompt', sans-serif;
             background-color: #fff6ec;
             margin: 0;
+            padding: 0 1.5rem;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -147,12 +148,12 @@ exports.handler = async (event) => {
           }
           .box {
             background: #fff0eb;
-            padding: 2.5rem;
+            padding: 2.5rem 1.8rem;
             border-radius: 14px;
             text-align: center;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
             max-width: 400px;
-            width: 90%;
+            width: 100%;
           }
           .box h1 {
             font-size: 1.6rem;
@@ -162,7 +163,7 @@ exports.handler = async (event) => {
           .box p {
             font-size: 1rem;
             color: #444;
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.5rem;
           }
           .btn {
             padding: 0.75rem 2rem;
@@ -174,6 +175,8 @@ exports.handler = async (event) => {
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s ease-in-out;
+            width: 100%;
+            max-width: 240px;
           }
           .btn:hover {
             background-color: #e65c00;
