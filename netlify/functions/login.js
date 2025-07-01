@@ -124,7 +124,7 @@ exports.handler = async (event) => {
           <p>คุณกรอกผิดไปแล้ว <strong>${attempts[ip].failCount} ครั้ง</strong></p>
           <p>ครบ 5 ครั้ง ระบบจะล็อกทันที</p>
           <form method="GET" action="/">
-            <button class="btn" type="submit">🔁 ลองใหม่อีกครั้ง</button>
+            <button class="btn" type="submit">ลองใหม่อีกครั้ง</button>
           </form>
         </div>
       </body>
